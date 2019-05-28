@@ -14,23 +14,6 @@
 		F69C2496228F39B300213715 /* Human.scn in Resources */ = {isa = PBXBuildFile; fileRef = F69C2495228F39B300213715 /* Human.scn */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F69C2479228F27BD00213715 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F69C245E228F27BC00213715 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F69C2465228F27BC00213715;
-			remoteInfo = HumanGLAnimation;
-		};
-		F69C2484228F27BD00213715 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F69C245E228F27BC00213715 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F69C2465228F27BC00213715;
-			remoteInfo = HumanGLAnimation;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		F69C2466228F27BC00213715 /* HumanGLAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumanGLAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69C2469228F27BC00213715 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,27 +22,11 @@
 		F69C2470228F27BC00213715 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F69C2472228F27BC00213715 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F69C2473228F27BC00213715 /* HumanGLAnimation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HumanGLAnimation.entitlements; sourceTree = "<group>"; };
-		F69C2478228F27BD00213715 /* HumanGLAnimationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumanGLAnimationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F69C2483228F27BD00213715 /* HumanGLAnimationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumanGLAnimationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69C2495228F39B300213715 /* Human.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Human.scn; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F69C2463228F27BC00213715 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F69C2475228F27BD00213715 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F69C2480228F27BD00213715 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -81,8 +48,6 @@
 			isa = PBXGroup;
 			children = (
 				F69C2466228F27BC00213715 /* HumanGLAnimation.app */,
-				F69C2478228F27BD00213715 /* HumanGLAnimationTests.xctest */,
-				F69C2483228F27BD00213715 /* HumanGLAnimationUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,42 +86,6 @@
 			productReference = F69C2466228F27BC00213715 /* HumanGLAnimation.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F69C2477228F27BD00213715 /* HumanGLAnimationTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F69C248F228F27BD00213715 /* Build configuration list for PBXNativeTarget "HumanGLAnimationTests" */;
-			buildPhases = (
-				F69C2474228F27BD00213715 /* Sources */,
-				F69C2475228F27BD00213715 /* Frameworks */,
-				F69C2476228F27BD00213715 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F69C247A228F27BD00213715 /* PBXTargetDependency */,
-			);
-			name = HumanGLAnimationTests;
-			productName = HumanGLAnimationTests;
-			productReference = F69C2478228F27BD00213715 /* HumanGLAnimationTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F69C2482228F27BD00213715 /* HumanGLAnimationUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F69C2492228F27BD00213715 /* Build configuration list for PBXNativeTarget "HumanGLAnimationUITests" */;
-			buildPhases = (
-				F69C247F228F27BD00213715 /* Sources */,
-				F69C2480228F27BD00213715 /* Frameworks */,
-				F69C2481228F27BD00213715 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F69C2485228F27BD00213715 /* PBXTargetDependency */,
-			);
-			name = HumanGLAnimationUITests;
-			productName = HumanGLAnimationUITests;
-			productReference = F69C2483228F27BD00213715 /* HumanGLAnimationUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -170,16 +99,6 @@
 					F69C2465228F27BC00213715 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
-					};
-					F69C2477228F27BD00213715 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = F69C2465228F27BC00213715;
-					};
-					F69C2482228F27BD00213715 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = F69C2465228F27BC00213715;
 					};
 				};
 			};
@@ -197,8 +116,6 @@
 			projectRoot = "";
 			targets = (
 				F69C2465228F27BC00213715 /* HumanGLAnimation */,
-				F69C2477228F27BD00213715 /* HumanGLAnimationTests */,
-				F69C2482228F27BD00213715 /* HumanGLAnimationUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -214,20 +131,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F69C2476228F27BD00213715 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F69C2481228F27BD00213715 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -240,34 +143,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F69C2474228F27BD00213715 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F69C247F228F27BD00213715 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F69C247A228F27BD00213715 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F69C2465228F27BC00213715 /* HumanGLAnimation */;
-			targetProxy = F69C2479228F27BD00213715 /* PBXContainerItemProxy */;
-		};
-		F69C2485228F27BD00213715 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F69C2465228F27BC00213715 /* HumanGLAnimation */;
-			targetProxy = F69C2484228F27BD00213715 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F69C246F228F27BC00213715 /* Main.storyboard */ = {
@@ -417,68 +293,6 @@
 			};
 			name = Release;
 		};
-		F69C2490228F27BD00213715 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HumanGLAnimationTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = giantwow.HumanGLAnimationTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HumanGLAnimation.app/Contents/MacOS/HumanGLAnimation";
-			};
-			name = Debug;
-		};
-		F69C2491228F27BD00213715 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HumanGLAnimationTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = giantwow.HumanGLAnimationTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HumanGLAnimation.app/Contents/MacOS/HumanGLAnimation";
-			};
-			name = Release;
-		};
-		F69C2493228F27BD00213715 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HumanGLAnimationUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = giantwow.HumanGLAnimationUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = HumanGLAnimation;
-			};
-			name = Debug;
-		};
-		F69C2494228F27BD00213715 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HumanGLAnimationUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = giantwow.HumanGLAnimationUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = HumanGLAnimation;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -496,24 +310,6 @@
 			buildConfigurations = (
 				F69C248D228F27BD00213715 /* Debug */,
 				F69C248E228F27BD00213715 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F69C248F228F27BD00213715 /* Build configuration list for PBXNativeTarget "HumanGLAnimationTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F69C2490228F27BD00213715 /* Debug */,
-				F69C2491228F27BD00213715 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F69C2492228F27BD00213715 /* Build configuration list for PBXNativeTarget "HumanGLAnimationUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F69C2493228F27BD00213715 /* Debug */,
-				F69C2494228F27BD00213715 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

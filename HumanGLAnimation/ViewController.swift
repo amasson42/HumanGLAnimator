@@ -11,16 +11,17 @@ import SceneKit
 
 import simd
 
-// TODO: add torse position
-
-extension float3: CustomStringConvertible {
-    public var description: String {
-        return "{\(self.x);\(self.y);\(self.z)}"
+extension float3 {
+    var visualDescription: String {
+        return "{\(x);\(y);\(z)}"
     }
 }
 
 class HGLKeyframe {
     
+    static let positionsNames = [
+        "position"
+    ]
     static let pivotsNames = [
         "torse", "cou",
         "epaulegauche", "coudegauche",
@@ -29,6 +30,7 @@ class HGLKeyframe {
         "jambedroite", "genoudroit"
     ]
     
+    static var positionNodes: [SCNNode] = []
     static var pivotsNodes: [SCNNode] = []
     
     static func indexOf(pivotNamed name: String) -> Int? {
@@ -42,7 +44,22 @@ class HGLKeyframe {
         return pivotsNames[index]
     }
     
-    static func initPivotsNodes(fromScene scene: SCNScene) {
+    static func indexOf(positionNamed name: String) -> Int? {
+        return positionsNames.index(where: {$0 == name})
+    }
+    
+    static func nameOf(positionAt index: Int) -> String? {
+        guard index >= 0 && index < positionsNames.count else {
+            return nil
+        }
+        return positionsNames[index]
+    }
+    
+    static func initNodes(fromScene scene: SCNScene) {
+        for name in positionsNames {
+            let node = scene.rootNode.childNode(withName: name, recursively: true)!
+            positionNodes.append(node)
+        }
         for name in pivotsNames {
             let node = scene.rootNode.childNode(withName: name, recursively: true)!
             pivotsNodes.append(node)
@@ -51,7 +68,8 @@ class HGLKeyframe {
     
     var time: TimeInterval = 0
     
-    var pivots: [float3] = [float3](repeating: float3(0), count: 10)
+    var positions: [float3] = [float3](repeating: float3(0), count: HGLKeyframe.positionsNames.count)
+    var pivots: [float3] = [float3](repeating: float3(0), count: HGLKeyframe.pivotsNames.count)
     
 }
 
@@ -65,6 +83,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var frameTimeField: NSTextField!
     @IBOutlet weak var removeFrameButton: NSButton!
     
+    @IBOutlet weak var positionStackView: NSStackView!
     @IBOutlet weak var attributesStackView: NSStackView!
     @IBOutlet weak var timeField: NSTextField!
     
@@ -77,7 +96,7 @@ class ViewController: NSViewController {
         
         currentViewController = self
         let scene = SCNScene(named: "Human.scn")!
-        HGLKeyframe.initPivotsNodes(fromScene: scene)
+        HGLKeyframe.initNodes(fromScene: scene)
         cameraPivot = scene.rootNode.childNode(withName: "camera_pivot", recursively: true)!
         humanSceneView.scene = scene
         humanSceneView.allowsCameraControl = false
@@ -103,6 +122,20 @@ class ViewController: NSViewController {
         self.timeField.isEnabled = sup
         if sup {
             self.timeField.stringValue = self.keyFrames[row].time.description
+        }
+        
+        // positions attributes
+        if sup {
+            (positionStackView.views[1] as! NSTextField).stringValue = self.keyFrames[row].positions[0].x.description
+            (positionStackView.views[2] as! NSTextField).stringValue = self.keyFrames[row].positions[0].y.description
+            (positionStackView.views[3] as! NSTextField).stringValue = self.keyFrames[row].positions[0].z.description
+            (positionStackView.views[1] as! NSTextField).isEnabled = true
+            (positionStackView.views[2] as! NSTextField).isEnabled = true
+            (positionStackView.views[3] as! NSTextField).isEnabled = true
+        } else {
+            (positionStackView.views[1] as! NSTextField).isEnabled = false
+            (positionStackView.views[2] as! NSTextField).isEnabled = false
+            (positionStackView.views[3] as! NSTextField).isEnabled = false
         }
         
         // pivots attributes
@@ -132,11 +165,14 @@ class ViewController: NSViewController {
         let keyFrame = keyFrames[row]
         keyFrame.time = timeField.doubleValue
         
+        for i in 0..<3 {
+            keyFrame.positions[0][i] = (positionStackView.views[1 + i] as! NSTextField).floatValue
+        }
         for (pivotIndex, stack) in attributesStackView.views.enumerated() {
             let stackView = stack as! NSStackView
-            keyFrame.pivots[pivotIndex].x = (stackView.views[1] as! NSTextField).floatValue
-            keyFrame.pivots[pivotIndex].y = (stackView.views[2] as! NSTextField).floatValue
-            keyFrame.pivots[pivotIndex].z = (stackView.views[3] as! NSTextField).floatValue
+            for i in 0..<3 {
+                keyFrame.pivots[pivotIndex][i] = (stackView.views[1 + i] as! NSTextField).floatValue
+            }
         }
         
     }
@@ -160,6 +196,10 @@ class ViewController: NSViewController {
             return
         }
         let keyFrame = keyFrames[keyframesTableView.selectedRow]
+        for (index, node) in HGLKeyframe.positionNodes.enumerated() {
+            let offset = keyFrame.positions[index]
+            node.position = SCNVector3(offset)
+        }
         for (index, node) in HGLKeyframe.pivotsNodes.enumerated() {
             let angles = keyFrame.pivots[index]
             node.eulerAngles = SCNVector3(angles)
@@ -173,25 +213,35 @@ class ViewController: NSViewController {
             return
         }
         
-        var actionsSequences = [[SCNAction]](repeating: [], count: HGLKeyframe.pivotsNames.count)
+        var positionsActionsSequences = [[SCNAction]](repeating: [], count: HGLKeyframe.positionsNames.count)
+        var pivotsActionsSequences = [[SCNAction]](repeating: [], count: HGLKeyframe.pivotsNames.count)
         
         var previousTime: TimeInterval = 0
         
         for keyFrame in keyFrames {
             let deltaTime = keyFrame.time - previousTime
             previousTime = keyFrame.time
+            for index in 0..<HGLKeyframe.positionsNames.count {
+                let offset = keyFrame.positions[index]
+                let action = SCNAction.move(to: SCNVector3(offset), duration: deltaTime)
+                positionsActionsSequences[index].append(action)
+            }
             for index in 0..<HGLKeyframe.pivotsNames.count {
                 let angles = keyFrame.pivots[index]
                 let action = SCNAction.rotateTo(x: CGFloat(angles.x),
                                                 y: CGFloat(angles.y),
                                                 z: CGFloat(angles.z),
                                                 duration: deltaTime)
-                actionsSequences[index].append(action)
+                pivotsActionsSequences[index].append(action)
             }
         }
         
+        for (index, node) in HGLKeyframe.positionNodes.enumerated() {
+            let sequence = SCNAction.sequence(positionsActionsSequences[index])
+            node.runAction(SCNAction.repeatForever(sequence), forKey: "animation")
+        }
         for (index, node) in HGLKeyframe.pivotsNodes.enumerated() {
-            let sequence = SCNAction.sequence(actionsSequences[index])
+            let sequence = SCNAction.sequence(pivotsActionsSequences[index])
             node.runAction(SCNAction.repeatForever(sequence),
                            forKey: "animation")
         }
@@ -200,6 +250,9 @@ class ViewController: NSViewController {
     
     @IBAction func stopAnimation(_ sender: Any) {
         
+        for node in HGLKeyframe.positionNodes {
+            node.removeAction(forKey: "animation")
+        }
         for node in HGLKeyframe.pivotsNodes {
             node.removeAction(forKey: "animation")
         }
@@ -211,11 +264,19 @@ class ViewController: NSViewController {
         
         var content = ""
         for keyFrame in keyFrames {
+            for (positionIndex, position) in keyFrame.positions.enumerated() {
+                for i in 0...2 {
+                    if position[i] != 0 {
+                        let name = HGLKeyframe.nameOf(positionAt: positionIndex)!
+                        content += "\(name) \(vectorNames[i]) \(position[i])\n"
+                    }
+                }
+            }
             for (pivotIndex, pivot) in keyFrame.pivots.enumerated() {
-                for (i, value) in pivot.enumerated() {
-                    if value != 0 {
+                for i in 0...2 {
+                    if pivot[i] != 0 {
                         let name = HGLKeyframe.nameOf(pivotAt: pivotIndex)!
-                        content += "\(name) \(vectorNames[i]) \(value)\n"
+                        content += "\(name) \(vectorNames[i]) \(pivot[i])\n"
                     }
                 }
             }
@@ -266,6 +327,11 @@ class ViewController: NSViewController {
                     let value = Float(words[2]) {
                     keyFrame.pivots[index][vi] = value
                     print("set value \(value) to pivot \(index).\(vi)")
+                } else if let index = HGLKeyframe.indexOf(positionNamed: String(words[0])),
+                    let vi = vectorIndex[String(words[1])],
+                    let value = Float(words[2]) {
+                    keyFrame.positions[index][vi] = value
+                    print("set value \(value) to position \(index).\(vi)")
                 } else {
                     print("error :/")
                 }
@@ -304,7 +370,6 @@ extension ViewController {
     
     override func mouseDragged(with event: NSEvent) {
         cameraPivot.eulerAngles.y -= event.deltaX * 0.005
-        print("mouse dragg")
     }
     
 }
@@ -322,7 +387,9 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
         if title == "time" {
             return "\(keyFrames[row].time)"
         } else if let pivotIndex = HGLKeyframe.indexOf(pivotNamed: title) {
-            return "\(keyFrames[row].pivots[pivotIndex])"
+            return "\(keyFrames[row].pivots[pivotIndex].visualDescription)"
+        } else if let positionIndex = HGLKeyframe.indexOf(positionNamed: title) {
+            return "\(keyFrames[row].positions[positionIndex].visualDescription)"
         }
         return nil
     }
