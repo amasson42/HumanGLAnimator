@@ -71,6 +71,13 @@ class HGLKeyframe {
     var positions: [float3] = [float3](repeating: float3(0), count: HGLKeyframe.positionsNames.count)
     var pivots: [float3] = [float3](repeating: float3(0), count: HGLKeyframe.pivotsNames.count)
     
+    func clone(offset: TimeInterval = 0) -> HGLKeyframe {
+        let clone = HGLKeyframe()
+        clone.time = self.time + offset
+        clone.positions = positions
+        clone.pivots = pivots
+        return clone
+    }
 }
 
 weak var currentViewController: ViewController?
@@ -158,7 +165,6 @@ class ViewController: NSViewController {
     }
     
     func saveFrame() {
-        print("saving frame")
         let row = keyframesTableView.selectedRow
         guard row >= 0 && row < keyFrames.count else {
             return
@@ -175,12 +181,15 @@ class ViewController: NSViewController {
                 keyFrame.pivots[pivotIndex][i] = (stackView.views[1 + i] as! NSTextField).floatValue
             }
         }
-        print("ok nice !")
     }
     
     @IBAction func addFrame(_ sender: Any) {
         saveFrame()
-        keyFrames.append(HGLKeyframe())
+        if let last = keyFrames.last {
+            keyFrames.append(last.clone(offset: 0.1))
+        } else {
+            keyFrames.append(HGLKeyframe())
+        }
         reloadUI()
     }
     
@@ -209,6 +218,7 @@ class ViewController: NSViewController {
     
     @IBAction func playAnimation(_ sender: Any) {
         
+        let minTransTime = 0.01
         saveFrame()
         guard keyFrames.count > 0 else {
             return
@@ -222,8 +232,8 @@ class ViewController: NSViewController {
         for keyFrame in keyFrames {
             var deltaTime = keyFrame.time - previousTime
             previousTime = keyFrame.time
-            if deltaTime <= 0.1 {
-                deltaTime = 0.1
+            if deltaTime <= minTransTime {
+                deltaTime = minTransTime
             }
             for index in 0..<HGLKeyframe.positionsNames.count {
                 let offset = keyFrame.positions[index]
