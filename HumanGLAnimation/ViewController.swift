@@ -158,6 +158,7 @@ class ViewController: NSViewController {
     }
     
     func saveFrame() {
+        print("saving frame")
         let row = keyframesTableView.selectedRow
         guard row >= 0 && row < keyFrames.count else {
             return
@@ -174,7 +175,7 @@ class ViewController: NSViewController {
                 keyFrame.pivots[pivotIndex][i] = (stackView.views[1 + i] as! NSTextField).floatValue
             }
         }
-        
+        print("ok nice !")
     }
     
     @IBAction func addFrame(_ sender: Any) {
@@ -219,8 +220,11 @@ class ViewController: NSViewController {
         var previousTime: TimeInterval = 0
         
         for keyFrame in keyFrames {
-            let deltaTime = keyFrame.time - previousTime
+            var deltaTime = keyFrame.time - previousTime
             previousTime = keyFrame.time
+            if deltaTime <= 0.1 {
+                deltaTime = 0.1
+            }
             for index in 0..<HGLKeyframe.positionsNames.count {
                 let offset = keyFrame.positions[index]
                 let action = SCNAction.move(to: SCNVector3(offset), duration: deltaTime)
@@ -404,7 +408,7 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSelectionIsChanging(_ notification: Notification) {
         
         reloadUI()
-        
+
         reloadHuman(self)
         
     }
